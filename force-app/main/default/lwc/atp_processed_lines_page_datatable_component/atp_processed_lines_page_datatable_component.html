@@ -1,0 +1,97 @@
+<!--=================================================================================================
+DATE                    DEVELOPER                   COMMENTS
+
+14-Jul-2024             Rithesh                     P20S-877,P20S-1000
+                                                    Used in "atp_processed_lines_page_main_component"
+===================================================================================================-->
+<template>
+    <div class="slds-page-header" style="width: 100%; align-content: center;">
+        <template if:true={isLoading}>
+                <lightning-spinner variant="base" size="medium"></lightning-spinner>
+        </template>
+        <template if:false={isLoading}>
+            <div class="slds-is-relative">
+                <div style="height : 400px">
+                    <lightning-datatable key-field="Id" 
+                                         columns={columns} 
+                                         data={recordsToDisplay}
+                                         default-sort-direction={defaultSortDirection} 
+                                         sorted-direction={sortDirection} 
+                                         sorted-by={sortedBy}
+                                         onsort={onHandleSort} 
+                                         onrowselection={handleRowSelection} 
+                                         oncellchange={handleOnCellChange}
+                                         errors={errors} 
+                                         suppress-bottom-bar="true" 
+                                         wrap-table-header 
+                                         show-row-number-column>
+                    </lightning-datatable>
+                </div>
+            </div>
+        </template>
+
+        <template if:true={disablePagination}>
+            <div class="slds-grid slds-grid_align-spread slds-p-vertical_medium" style="height:5rem">
+                <!--RECORDS PER PAGE-->
+                <div class="slds-col">
+                    <div class="slds-list_inline slds-p-bottom_xx-small">
+                        <label class="slds-text-color_weak slds-p-horizontal_x-small" for="recordsPerPage">
+                            Page Size:
+                        </label>
+                        <lightning-combobox name="pageSize" 
+                                        label="Page Size:" 
+                                        value={pageSize}
+                                        placeholder="Select Page Size"
+                                        variant="label-hidden"
+                                        options={pageSizeOptions}
+                                        onchange={handleRecordsPerPage}>
+                        </lightning-combobox>
+                    </div>
+                </div>
+
+                <div class="slds-col">
+                    <!--PAGE NAVIGATION-->
+                    <lightning-button disabled={disableFirst} 
+                                      icon-name="utility:jump_to_left" 
+                                      label="First"
+                                      class="slds-p-horizontal_x-small" 
+                                      alternative-text="first page" 
+                                      onclick={goToFirstPage}>
+                    </lightning-button>
+
+                    <lightning-button disabled={disableFirst} 
+                                      icon-name="utility:chevronleft" 
+                                      label="Previous"
+                                      alternative-text="Previous" 
+                                      onclick={goToPreviousPage}>
+                    </lightning-button>
+
+                    &nbsp;
+                    <span class="slds-badge">
+                        Showing {pageNumber} &nbsp;of&nbsp; {totalPages} &nbsp;&nbsp;Page(s)
+                    </span>
+
+                    <lightning-button disabled={disableLast} 
+                                      icon-name="utility:chevronright" 
+                                      label="Next"
+                                      alternative-text="Next" 
+                                      onclick={goToNextPage} 
+                                      class="slds-p-horizontal_x-small"
+                                      icon-position="right">
+                    </lightning-button>
+
+                    <lightning-button disabled={disableLast} 
+                                      icon-name="utility:jump_to_right" 
+                                      label="Last"
+                                      alternative-text="last page" 
+                                      onclick={goToLastPage} 
+                                      icon-position="right">
+                    </lightning-button>
+                </div>
+                <div class="slds-col slds-p-right_x-small">
+                    Total Records : <span class="totalrecordsbox">{totalRecords}</span>
+                </div>
+            </div>
+        </template>
+    </div>
+</template>

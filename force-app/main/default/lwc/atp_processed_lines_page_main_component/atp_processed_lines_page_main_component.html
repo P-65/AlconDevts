@@ -1,0 +1,27 @@
+<!--========================================================================
+DATE                    DEVELOPER                   COMMENTS
+
+14-Jul-2024             Rithesh                     P20S-877
+==========================================================================-->
+<template>
+    <lightning-layout multiple-rows="true">
+        <lightning-layout-item size="12">
+            <div class="list-header-container">
+                <c-atp_processed_lines_page_button_panel_component parts-request-id={recordId}
+                                                                   onsearchopenlinesevent={handleSearchProcessedLinesEvent}
+                                                                   onsearcbysourceopenlinesevent={handleSearchBySourceProcessedLinesEvent}
+                                                                   onplaceorderevent={handlePlaceOrderEvent}
+                                                                   onrefreshevent={handleRefreshEvent}
+                                                                   onresubmitevent={handleResubmitOrderEvent}>
+                </c-atp_processed_lines_page_button_panel_component>
+            </div>
+        </lightning-layout-item>
+        <lightning-layout-item size="12">
+            <div class="list-header-container">
+                <c-atp_processed_lines_page_datatable_component onqueryprocessedlinesevent={handleQueryProcessedLinesEvent} 
+                                                                ondisableresumbitevent={handleDisableResubmitEvent}>
+                </c-atp_processed_lines_page_datatable_component>
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

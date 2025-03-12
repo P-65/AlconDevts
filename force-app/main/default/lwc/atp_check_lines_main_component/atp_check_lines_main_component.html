@@ -1,0 +1,56 @@
+<!--==========================================================================================
+DATE                    DEVELOPER                   COMMENTS
+
+11-Jun-2024             Rithesh                     P20S-877
+                                                    Used in "atp_start_screen_main_component"
+===========================================================================================-->
+<template>
+  <template if:true={showModal}>
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+      aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_large">
+      <div class="slds-modal__container">
+        <!-- Header Start -->
+        <header class="slds-modal__header">
+          <h2 class="slds-text-heading_medium slds-hyphenate header-string">
+            Availability Check Results
+          </h2>
+        </header>
+        <!-- Header End -->
+        <div class="slds-scrollable">
+          <lightning-layout-item size="12">
+            <div class="list-header-container">
+              <c-atp_check_line_shipping_info_component parts-request-id={partsRequestId}
+                                                        parts-req-line-atp-check-line-record-type-id={partsReqLineAtpCheckLineRecordTypeId} 
+                                                        onpartsrequestdataevent={handlePartsReqestDataEvent}
+                                                        onpartsrequpdatedevent={handlePartsReqUpdatedEvent}>
+              </c-atp_check_line_shipping_info_component>
+            </div>
+          </lightning-layout-item>
+          <lightning-layout-item size="12">
+            <div class="list-header-container">
+              <c-atp_open_lines_button_panel_component parts-request-id={partsRequestId}
+                                                       onsearchopenlinesevent={handleSearchOpenLinesEvent}
+                                                       onsearcbysourceopenlinesevent={handleSearchBySourceOpenLinesEvent}
+                                                       onplaceorderevent={handlePlaceOrderEvent}
+                                                       onresubmitevent={handlePlaceOrderEvent}
+                                                       onrefreshevent={handleRefreshEvent}>
+              </c-atp_open_lines_button_panel_component>
+            </div>
+          </lightning-layout-item>
+          <c-atp_open_lines_tab_component parts-request-id={partsRequestId} 
+                                          parts-req-line-atp-check-line-record-type-id={partsReqLineAtpCheckLineRecordTypeId}
+                                          product-ids-string={productIdsString}
+                                          onupdatepartsrequestevent={handleUpdatePartsRequestEvent} 
+                                          onsourcevaluesevent={handleSourceValuesEvent}
+                                          group-ship-val={groupShipVal} 
+                                          work-order-val={workOrderVal} 
+                                          ondisableplaceorderevent={handleDisablePlaceOrderEvent}
+                                          ontabchangeevent={handleTabChangeEvent} 
+                                          ondisableresumbitevent={handleDisableResubmitEvent}>
+            </c-atp_open_lines_tab_component>
+        </div>
+      </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+  </template>
+</template>

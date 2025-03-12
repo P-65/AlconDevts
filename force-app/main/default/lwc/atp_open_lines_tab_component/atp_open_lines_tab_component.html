@@ -1,0 +1,32 @@
+<!--=======================================================================================
+DATE                    DEVELOPER                   COMMENTS
+
+11-Jun-2024             Rithesh                     P20S-877
+                                                    Used in "atp_check_lines_main_component"
+=========================================================================================-->
+<template>
+    <div class="slds-page-header" style="width: 100%; align-content: center;">
+        <lightning-tabset>
+            <lightning-tab label="Open Lines" value="1" onactive={handleActiveTab}>
+                <c-atp_open_lines_data_table_component parts-request-id={partsRequestId}
+                                                       parts-req-line-atp-check-line-record-type-id={partsReqLineAtpCheckLineRecordTypeId}
+                                                       product-ids-string={productIdsString} 
+                                                       onqueryrecordsevent={handleQueryRecordsEvent}
+                                                       onupdatepartsrequestevent={handleUpdatePartsRequestEvent}
+                                                       onsourcevaluesevent={handleSourceValuesEvent} 
+                                                       group-ship-val={groupShipVal}
+                                                       work-order-val={workOrderVal} 
+                                                       ondisableplaceorderevent={handleDisablePlaceOrderEvent}>
+                </c-atp_open_lines_data_table_component>
+            </lightning-tab>
+            <lightning-tab label="Processed Lines" value="2" onactive={handleActiveTab} >
+                <c-atp_processed_lines_data_table_component parts-request-id={partsRequestId}
+                                                            parts-req-line-atp-check-line-record-type-id={partsReqLineAtpCheckLineRecordTypeId}
+                                                            product-ids-string={productIdsString}
+                                                            onqueryprocessedlinerecordsevent={handleQueryProcessedLinesRecordsEvent}
+                                                            ondisableresumbitevent={handleDisableResubmitEvent}>
+                </c-atp_processed_lines_data_table_component>
+            </lightning-tab>
+        </lightning-tabset>
+    </div>
+</template>

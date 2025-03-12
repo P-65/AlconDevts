@@ -1,0 +1,46 @@
+<!--=========================================================================================
+DATE                    DEVELOPER                   COMMENTS
+
+07-Jun-2024             Rithesh                     P20S-877,P20S-993,P20S-933
+                                                    Used in "atp_start_screen_main_component"
+==========================================================================================-->
+<template>
+  <template if:true={showModal}>
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+      aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_large">
+      <div class="slds-modal__container">
+        <!-- Header Start -->
+        <header class="slds-modal__header">
+          <h2 class="slds-text-heading_medium slds-hyphenate header-string">
+            Add Parts
+          </h2>
+        </header>
+        <!-- Header End -->
+        <div class="slds-scrollable">
+          <lightning-layout-item size="12">
+            <div class="list-header-container">
+              <c-atp_add_part_button_panel_component ondeleteselrecords={handleDelSelRecordsEvent}
+                                                     onsearchrecordsevent={handleSearchRecordsEvent} 
+                                                     onsearchrecbyfamevent={handleSearchRecByFamEvent}
+                                                     onaddselrecordsevent={handleAddSelRecordsEvent} 
+                                                     onclosemodalevent={handleDialogClose}>
+              </c-atp_add_part_button_panel_component>
+            </div>
+          </lightning-layout-item>
+          <lightning-layout-item size="12">
+            <div class="list-header-container">
+              <c-atp_add_part_datatable_component parts-request-id={partsRequestId}
+                                                  parts-req-line-prod-line-record-type-id={partsReqLineProdLineRecordTypeId} 
+                                                  onqueryrecords={handleQueryrRcordsEvent} 
+                                                  onaddedproductsevent={handleAddedProductsEvent}
+                                                  onclosemodalevent={handleDialogClose}
+                                                  ondisableaddproductevent={handleDisableAddProductEvent}>
+              </c-atp_add_part_datatable_component>
+            </div>
+          </lightning-layout-item>
+        </div>
+      </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+  </template>
+</template>

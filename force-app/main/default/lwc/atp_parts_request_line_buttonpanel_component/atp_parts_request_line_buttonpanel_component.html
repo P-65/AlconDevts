@@ -1,0 +1,55 @@
+<!--========================================================================================
+DATE                    DEVELOPER                   COMMENTS
+
+06-Jun-2024             Rithesh                     P20S-877
+                                                    Used in "atp_start_screen_main_component"
+==========================================================================================-->
+<template>
+  <div class="slds-page-header" style="width: 100%; align-content: center;">
+    <div class="slds-container_x-large slds-container_center">
+      <div class="slds-grid slds-grid_align-space">
+        <div class="slds-col ">
+          <lightning-button label={deleteSelectedProductsButtonLabel} 
+                            variant="destructive" 
+                            onclick={handleDeleteRecords}>
+          </lightning-button>
+        </div>
+        <div class="slds-col ">
+          <lightning-button label={addProductsButtonLabel} 
+                            variant="brand" 
+                            onclick={handleShowAddProducts}
+                            disabled={enableAddProductsButton}>
+          </lightning-button>
+        </div>
+        <div class="slds-col ">
+          <lightning-input class="input" 
+                           value='' type="search" 
+                           placeholder="Search.." 
+                           variant="label-hidden"
+                           onchange={handleSearchRecords}>
+          </lightning-input>
+        </div>
+        <div class="slds-col">
+          <lightning-button label={performAvailabilityCheckButtonLabel} 
+                            variant="brand" 
+                            onclick={handleShowCheckLines}
+                            disabled={enableATPCheckButton}>
+          </lightning-button>
+          <template if:true={showSpinner}>
+            <lightning-spinner alternative-text="Loading" 
+                               variant="base" 
+                               size="large">
+              </lightning-spinner>
+          </template>
+        </div>
+        <div class="slds-col">
+          <lightning-button-icon variant="brand" 
+                                 icon-name="utility:close" 
+                                 alternative-text="Cancel"
+                                 onclick={handleCancel}>
+            </lightning-button-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

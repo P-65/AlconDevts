@@ -1,0 +1,57 @@
+<!--=====================================================================================
+DATE                    DEVELOPER                   COMMENTS
+
+08-Jun-2024             Rithesh                     P20S-877,P20S-993,P20S-933
+                                                    Used in "atp_add_part_main_component"
+=======================================================================================-->
+<template>
+  <div class="slds-page-header" style="width: 100%; align-content: center;">
+    <div class="slds-container_x-large slds-container_center">
+      <div class="slds-grid slds-grid_align-space">
+        <div class="slds-col ">
+          <lightning-input class="input" 
+                           value='' 
+                           type="search" 
+                           placeholder="Search.." 
+                           onchange={handleSearchRecords}
+            variant="label-hidden"></lightning-input>
+        </div>
+        <div class="slds-col ">
+          <div>
+            <lightning-combobox name="Product Family" 
+                                label="Product Family" 
+                                value={value}
+                                placeholder="Product Family..." 
+                                options={options} 
+                                onchange={handleSearchRecByProdFam}
+                                variant="label-hidden">
+            </lightning-combobox>
+          </div>
+          <div class="slds-p-around_xx-small">
+            <template for:each={allValues} for:item="val">
+              <lightning-pill key={val} 
+                              name={val} 
+                              label={val} 
+                              onremove={handleRemove}>
+              </lightning-pill>
+            </template>
+          </div>
+        </div>
+        <div class="slds-col ">
+          <lightning-button label={addProductsLabel} 
+                            variant="brand" 
+                            onclick={handleAddProducts}
+                            disabled={disableAddProdButton}>
+          </lightning-button>
+        </div>
+        <div class="slds-col ">
+          <lightning-button-icon variant="brand" 
+                                 icon-name="utility:close" 
+                                 alternative-text="Cancel"
+                                 onclick={handleCancel}>
+          </lightning-button-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

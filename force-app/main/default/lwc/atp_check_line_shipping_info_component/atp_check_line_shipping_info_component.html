@@ -1,0 +1,183 @@
+<!--=======================================================================================
+DATE                    DEVELOPER                   COMMENTS
+
+11-Jun-2024             Rithesh                     P20S-877, P20S-987
+                                                    Used in "atp_check_lines_main_component"
+=========================================================================================-->
+<template>
+    <div class="slds-page-header" style="width: 100%; align-content: center;">
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_6-of-12">
+                <div>
+                    <lightning-radio-group name="groupShip" 
+                                           label="Group Shipment" 
+                                           options={groupShipOptions}
+                                           value={groupShipVal} 
+                                           type="button" 
+                                           variant="label-inline"
+                                           onchange={handleChange}>
+                    </lightning-radio-group>
+                </div>
+            </div>
+            <div class="slds-col slds-size_6-of-12">
+                <div>
+                    <lightning-radio-group name="shipToCusLoc" 
+                                           label="Ship To Customer Location"
+                                           options={shipToCusLocOptions} 
+                                           value={shipToCusLocVal} type="button" 
+                                           variant="label-inline"
+                                           onchange={handleChange}
+                                           class="shipToCusLoc">
+                    </lightning-radio-group>
+                </div>
+            </div>
+        </div>
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_6-of-12">
+                <div>
+                    <lightning-input type="text" 
+                                     label="Work Order" 
+                                     variant="label-inline" 
+                                     value={workOrderValue}
+                                     disabled>
+                    </lightning-input>
+                </div>
+            </div>
+            <div class="slds-col slds-size_6-of-12">
+                <div>
+                    <lightning-textarea name="HeaderNote" 
+                                        label="Header Note" 
+                                        variant="label-inline"
+                                        value={headerNoteVal} 
+                                        onchange={handleChange} 
+                                        max-length="255">
+                    </lightning-textarea>
+                </div>
+            </div>
+        </div>
+        <div class="slds-border_bottom slds-m-bottom_medium"></div>
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_6-of-12">
+                <div>
+                    <lightning-input type="text" 
+                                     label="Required At Location" 
+                                     variant="label-inline" 
+                                     value={reqAtLocVal}
+                                     disabled>
+                    </lightning-input>
+                </div>
+            </div>
+            <div class="slds-col slds-size_6-of-12">
+                <div>
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-size_4-of-12">
+                            <div class="slds-text-body_small">Shipping Location</div>
+                        </div>
+                        <div class="slds-col slds-size_8-of-12">
+                            <lightning-record-picker label="Shipping Location" 
+                                                     placeholder="Search Location..."
+                                                     object-api-name="SVMXC__Site__c" 
+                                                     value={reqFromVal} 
+                                                     onchange={handleReqFrom}
+                                                     variant="label-hidden" 
+                                                     filter={RequestedFromFilter}>
+                            </lightning-record-picker>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_6-of-12">
+                <div>
+                    <lightning-input name="Name" 
+                                     class="nameComp" 
+                                     type="text" 
+                                     label="Name" 
+                                     variant="label-inline" 
+                                     value={addNameVal}
+                                     onchange={handleChange} >
+                    </lightning-input>
+                </div>
+                <div>
+                    <lightning-input name="HouseAndStreet" 
+                                     class="houseStreetComp" 
+                                     type="text" 
+                                     label="House and Street #" 
+                                     variant="label-inline"
+                                     value={addStreetVal} 
+                                     onchange={handleChange} 
+                                     required>
+                    </lightning-input>
+                </div>
+                <div>
+                    <lightning-combobox name="Region" 
+                                        label="Region" 
+                                        value={regionVal} 
+                                        placeholder="Region"
+                                        options={regionOptions} 
+                                        variant="label-inline" 
+                                        onchange={handleChange}>
+                    </lightning-combobox>
+                </div>
+                <div>
+                    <lightning-input name="PostalCode" 
+                                     class="postalCodeComp" 
+                                     type="text" 
+                                     label="Postal Code" 
+                                     variant="label-inline" 
+                                     value={postalCodeVal}
+                                     onchange={handleChange} 
+                                     required>
+                    </lightning-input>
+                </div>
+            </div>
+            <div class="slds-col slds-size_6-of-12">
+                <div>
+                    <lightning-input name="Name2" 
+                                     type="text" 
+                                     label="Name2" 
+                                     variant="label-inline" 
+                                     value={addName2Val}
+                                     onchange={handleChange}>
+                    </lightning-input>
+                </div>
+                <div>
+                    <lightning-input name="City" 
+                                     type="text" 
+                                     class="cityComp" 
+                                     label="City" 
+                                     variant="label-inline" 
+                                     value={cityVal}
+                                     onchange={handleChange} 
+                                     required>
+                    </lightning-input>
+                </div>
+                <div>
+                    <lightning-combobox name="Country" 
+                                        class="countryComp" 
+                                        label="Country" 
+                                        value={countryValue} 
+                                        placeholder="Country"
+                                        options={countryOptions} 
+                                        variant="label-inline"
+                                        onchange={handleCountryChange} 
+                                        required>
+                    </lightning-combobox>
+                </div>
+                <div>
+                    <lightning-combobox name="ShipCon" 
+                                        class="shipConComp"
+                                        label="Shipping Condition" 
+                                        value={shipConVal}
+                                        placeholder="Shipping Condition" 
+                                        options={shippingCondOptions} 
+                                        variant="label-inline"
+                                        onchange={handleChange}
+                                        required>
+                    </lightning-combobox>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

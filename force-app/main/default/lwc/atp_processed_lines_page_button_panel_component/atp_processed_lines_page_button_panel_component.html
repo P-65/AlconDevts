@@ -1,0 +1,55 @@
+<!--================================================================================================
+DATE                    DEVELOPER                   COMMENTS
+
+15-Jul-2024             Rithesh                     P20S-877
+                                                    Used in "atp_processed_lines_page_main_component"
+==================================================================================================-->
+<template>
+    <div class="slds-page-header" style="width: 100%; align-content: center;">
+      <div class="slds-container_x-large slds-container_center">
+        <div class="slds-grid slds-grid_align-space">
+          <div class="slds-col ">
+            <lightning-input class="input" 
+                             value={searchTerm} 
+                             type="search" 
+                             placeholder="Search.."
+                             onchange={handleSearchRecords} 
+                             variant="label-hidden">
+             </lightning-input>
+          </div>
+          <div class="slds-col ">
+            <ul class="slds-list_horizontal slds-has-block-links_space">
+              <li>
+                <div class="slds-text-body_regular">Filter By Source :</div>
+              </li>
+              <li> <lightning-checkbox-group name="Checkbox Group" 
+                                             label="Source" 
+                                             options={sourceOptions} 
+                                             value={value}
+                                             onchange={handleChange} 
+                                             variant="label-hidden">
+                   </lightning-checkbox-group> 
+              </li>
+            </ul>
+          </div>
+          <div class="slds-col ">
+            <lightning-button-icon variant="brand" 
+                                   icon-name="utility:refresh" 
+                                   alternative-text="Refresh"
+                                   onclick={handleRefresh}>
+              </lightning-button-icon>
+          </div>
+          <div class="slds-col">
+            <lightning-button label={resubmitOrderButtonLabel} variant="brand" onclick={handleResubmit} disabled={disableResubmitButton}> </lightning-button>
+          </div>
+          <div class="slds-col">
+            <lightning-button-icon variant="brand" 
+                                   icon-name="utility:close" 
+                                   alternative-text="Cancel"
+                                   onclick={handleCancel}>
+              </lightning-button-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>

@@ -1,0 +1,35 @@
+<!--=======================================================================
+DATE                    DEVELOPER                   COMMENTS
+
+04-Jun-2024             Rithesh                     P20S-877
+==========================================================================-->
+<template>
+    <lightning-layout multiple-rows="true">
+        <lightning-layout-item size="12">
+            <div class="list-header-container">
+                <c-Atp_parts_request_line_buttonpanel_component parts-request-id={recordId}
+                                                                ondeleteselrecords={handleDelSelRecordsEvent} 
+                                                                onsearchrecordsevent={handleSearchRecordsEvent}
+                                                                onshowmodalevent={handleShowModalEvent} 
+                                                                onshowchecklinesvent={handleShowCheckLinesEvent}>
+                </c-Atp_parts_request_line_buttonpanel_component>
+            </div>
+        </lightning-layout-item>
+        <lightning-layout-item size="12">
+            <div class="list-header-container">
+                <c-atp_parts_request_line_datatable_component onqueryrecords={handleQueryrRcordsEvent}
+                                                              onqueryreconupdateevent={handleQueryrRcordsEvent}
+                                                              ondisableaddproductsevent={handleDisableAddProductsEvent}
+                                                              ondisableatpcheckevent={handleDisableATPCheckEvent}>
+                </c-atp_parts_request_line_datatable_component>
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>
+    <c-atp_add_part_main_component parts-request-id={recordId} 
+                                   parts-req-line-prod-line-record-type-id={partsReqLineProdLineRecordTypeId} 
+                                   onqueryrecords={handleQueryrRcordsEvent}>
+    </c-atp_add_part_main_component>
+    <c-atp_check_lines_main_component parts-request-id={recordId}
+                                      parts-req-line-atp-check-line-record-type-id={partsReqLineAtpCheckLineRecordTypeId}>
+    </c-atp_check_lines_main_component>
+</template>
