@@ -1,4 +1,4 @@
-import { LightningElement, wire, api} from 'lwc';
+import { LightningElement, wire, api } from 'lwc';
 //import to get record,get field value,updaterecord
 import { getRecord, getFieldValue, updateRecord } from 'lightning/uiRecordApi';
 //import to getpicklist values
@@ -30,8 +30,11 @@ import WORK_ORDER_FIELD from '@salesforce/schema/SVMXC__Parts_Request__c.Work_Or
 import CITY_FIELD from '@salesforce/schema/SVMXC__Parts_Request__c.Address_City_AC__c';
 import POSTAL_CODE_FIELD from '@salesforce/schema/SVMXC__Parts_Request__c.Address_Postal_Code_AC__c';
 import SALES_ORG_FIELD from '@salesforce/schema/SVMXC__Parts_Request__c.Sales_Org__c';
+import WORKORDER_CUSTOMER_LOC_FIELD from '@salesforce/schema/SVMXC__Parts_Request__c.Work_Order_AC__r.SVMXC__Site__c';
+import DISTRICT_FIELD from '@salesforce/schema/SVMXC__Parts_Request__c.Address_District_AC__c';
+
 //parts request fields
-const FIELDS = [SHIPPING_COND_FIELD, COUNTRY_FIELD, REGION_FIELD, GROUP_SHIP_FIELD, HEADER_NOTE_FIELD,REQUIRED_AT_LOC_NAME_FIELD,REQUIRED_AT_LOC_FIELD,REQUESTED_FROM_FIELD,SHIP_TO_CUS_LOC_FIELD, ADD_NAME_FIELD, ADD_NAME2_FIELD, ADD_STREET_FIELD, CITY_FIELD, WORK_ORDER_FIELD,POSTAL_CODE_FIELD,SALES_ORG_FIELD];
+const FIELDS = [SHIPPING_COND_FIELD, COUNTRY_FIELD, REGION_FIELD, GROUP_SHIP_FIELD, HEADER_NOTE_FIELD,REQUIRED_AT_LOC_NAME_FIELD,REQUIRED_AT_LOC_FIELD,REQUESTED_FROM_FIELD,SHIP_TO_CUS_LOC_FIELD, ADD_NAME_FIELD, ADD_NAME2_FIELD, ADD_STREET_FIELD, CITY_FIELD, WORK_ORDER_FIELD,POSTAL_CODE_FIELD,SALES_ORG_FIELD,WORKORDER_CUSTOMER_LOC_FIELD,DISTRICT_FIELD];
 export default class Atp_check_line_shipping_info_component extends LightningElement {
     //variable for pars request record id
     @api partsRequestId
@@ -74,7 +77,7 @@ export default class Atp_check_line_shipping_info_component extends LightningEle
     //variable for address name value
     addNameVal
     //variable for address name2 value
-    addName2Val
+    addName2Val = '';
     //variable for address street value
     addStreetVal
     //variable for region value
@@ -93,6 +96,8 @@ export default class Atp_check_line_shipping_info_component extends LightningEle
     partsRequestRecordTypeId;
     //variable for current user sales org
     currentUserSalesOrg;
+    //variable for district value
+    districtVal = '';
 
     
     /**
@@ -105,21 +110,9 @@ export default class Atp_check_line_shipping_info_component extends LightningEle
             this.groupShipVal = getFieldValue(data, GROUP_SHIP_FIELD) ? 'Yes' : 'No';
             this.reqAtLocVal = getFieldValue(data, REQUIRED_AT_LOC_NAME_FIELD);
             this.reqAtLocId = getFieldValue(data, REQUIRED_AT_LOC_FIELD);
-            this.getLocData(this.reqAtLocId);
-            //this.prepareFilterMethod()
-            //this.reqFromVal = getFieldValue(data, REQUESTED_FROM_FIELD);
             this.shipConVal = getFieldValue(data, SHIPPING_COND_FIELD);
-            if(this.currentUserSalesOrg === 'BR'){
-                this.shipToCusLocVal = 'Yes';
-                this.template.querySelector(".shipToCusLoc").disabled = true;
-                this.reqFromVal = getFieldValue(data, REQUESTED_FROM_FIELD) ? getFieldValue(data, REQUESTED_FROM_FIELD) : this.reqAtLocId;
-            }else{
-                this.prepareFilterMethod()
-                this.shipToCusLocVal = getFieldValue(data, SHIP_TO_CUS_LOC_FIELD) ? 'Yes' : 'No';
-                this.reqFromVal = getFieldValue(data, REQUESTED_FROM_FIELD);
-            }
-            this.headerNoteVal = getFieldValue(data, HEADER_NOTE_FIELD);
             this.workOrderValue = getFieldValue(data, WORK_ORDER_FIELD);
+            this.headerNoteVal = getFieldValue(data, HEADER_NOTE_FIELD);
             if (this.workOrderValue != null || this.groupShipVal === 'Yes') {
                 this.dispatchEvent(new CustomEvent('partsrequestdataevent', {
                     detail: {
@@ -143,9 +136,39 @@ export default class Atp_check_line_shipping_info_component extends LightningEle
                         this.countryValue = getFieldValue(data, COUNTRY_FIELD);
                         this.postalCodeVal=getFieldValue(data, POSTAL_CODE_FIELD);
                         this.getPickListOptions('Address_Country_AC__c');
+                        this.shipToCusLocVal = getFieldValue(data, SHIP_TO_CUS_LOC_FIELD) ? 'Yes' : 'No';
+                        this.reqFromVal = getFieldValue(data, REQUESTED_FROM_FIELD);
+                        if(this.currentUserSalesOrg === 'BR'){
+                            this.districtVal = getFieldValue(data, DISTRICT_FIELD);
+                            this.template.querySelectorAll('.nameComp,.name2Comp,.regionComp,.districtComp').forEach(item=>{
+                                item.required=true
+                                })
+                        }
                 }else{
-                        this.getLocData(this.reqAtLocId);
+                        if(this.currentUserSalesOrg === 'BR'){
+                            this.shipToCusLocVal = 'Yes';
+                            this.template.querySelector(".shipToCusLoc").disabled = true;
+                            this.reqFromVal = getFieldValue(data, REQUESTED_FROM_FIELD) ? getFieldValue(data, REQUESTED_FROM_FIELD) : this.reqAtLocId;
+                            this.template.querySelectorAll('.nameComp,.name2Comp,.regionComp,.districtComp').forEach(item=>{
+                                item.required=true
+                                })
+                        }else{
+                            this.prepareFilterMethod();
+                            if(this.workOrderValue){
+                                let woSite = getFieldValue(data, WORKORDER_CUSTOMER_LOC_FIELD);
+                                this.shipToCusLocVal = 'Yes';
+                                this.reqFromVal = getFieldValue(data, REQUESTED_FROM_FIELD) ? getFieldValue(data, REQUESTED_FROM_FIELD) : woSite;
+                            }else{
+                                this.shipToCusLocVal = getFieldValue(data, SHIP_TO_CUS_LOC_FIELD) ? 'Yes' : 'No';
+                                this.reqFromVal = getFieldValue(data, REQUESTED_FROM_FIELD);
+                            }
+                        }
                         this.getPickListOptions('Address_Country_AC__c');
+                        if(this.reqFromVal){
+                            this.getLocData(this.reqFromVal);
+                        }else{
+                            this.getLocData(this.reqAtLocId);
+                        }
                 }
             }).catch((error) => {
               //  console.log(error);
@@ -268,7 +291,7 @@ export default class Atp_check_line_shipping_info_component extends LightningEle
      * to fetch location data
      * */
     getLocData(locationRecordId) {
-        let sQuery = `Select Name,SVMXC__Street__c,SVMXC__City__c,SVMXC__Country__c,SVMXC__Zip__c FROM SVMXC__Site__c WHERE Id='${locationRecordId}' Limit 1`
+        let sQuery = `Select Name,SVMXC__Street__c,SVMXC__City__c,SVMXC__Country__c,SVMXC__Zip__c,CPF_Number__c,District__c FROM SVMXC__Site__c WHERE Id='${locationRecordId}' Limit 1`
             getLocRec({
                 sQuery: sQuery
             })
@@ -278,10 +301,11 @@ export default class Atp_check_line_shipping_info_component extends LightningEle
                         this.addNameVal = record.Name;
                         this.addStreetVal = record.SVMXC__Street__c
                         this.cityVal = record.SVMXC__City__c
-                        this.addName2Val = ''
+                        this.addName2Val = this.currentUserSalesOrg === 'BR' ? record.CPF_Number__c : '';
                         this.postalCodeVal = record.SVMXC__Zip__c
                         const country = record.SVMXC__Country__c
                         const selectedOption = this.countryOptions.find(option => option.label ===country);
+                        this.districtVal = this.currentUserSalesOrg === 'BR' ? record.District__c : '';
                         if (selectedOption) {
                             this.countryValue = selectedOption.value;
 
@@ -315,7 +339,6 @@ export default class Atp_check_line_shipping_info_component extends LightningEle
      * to handle change in field input values in the ui
      * */
     handleChange(event) {
-        console.log("Called from Ship to customer location");
         const field = event.target.name;
         if (field === 'groupShip') {
             this.groupShipVal = event.detail.value;
@@ -340,7 +363,9 @@ export default class Atp_check_line_shipping_info_component extends LightningEle
                 this.shippingCondOptions=[]
             }else if(this.shipToCusLocVal === 'No'){
                 this.template.querySelector('lightning-record-picker').clearSelection();
-                this.reqFromVal=null
+                this.reqFromVal=null;
+                this.regionVal = '';
+                this.addName2Val = '';
                 this.getLocData(this.reqAtLocId);
             }
         } else if (field === 'ShipCon') {
@@ -359,6 +384,8 @@ export default class Atp_check_line_shipping_info_component extends LightningEle
             this.regionVal = event.detail.value;
         } else if (field === 'PostalCode') {
             this.postalCodeVal = event.detail.value;
+        } else if (field === 'district') {
+            this.districtVal = event.detail.value;
         }
     }
 
@@ -424,7 +451,61 @@ export default class Atp_check_line_shipping_info_component extends LightningEle
             shipConComp.setCustomValidity("");
         }
         shipConComp.reportValidity();
-       
+
+        if(this.currentUserSalesOrg === 'BR'){
+            let districtComp=this.template.querySelector(".districtComp");
+            let districtValue=districtComp.value;
+            let districtRequired = districtComp.required;
+            if(districtRequired){
+                if(!districtValue){
+                    districtComp.setCustomValidity("Complete this field");
+                    errorsFound+=1
+                }else{
+                    districtComp.setCustomValidity("");
+                }
+                districtComp.reportValidity();
+            }
+        }
+         
+        let nameComp=this.template.querySelector(".nameComp");
+        let nameValue=nameComp.value;
+        let nameRequired = nameComp.required;
+        if(nameRequired){
+            if(!nameValue){
+                nameComp.setCustomValidity("Complete this field");
+                errorsFound+=1
+            }else{
+                nameComp.setCustomValidity("");
+            }
+            nameComp.reportValidity();
+        }
+
+        let name2Comp=this.template.querySelector(".name2Comp");
+        let name2Value=name2Comp.value;
+        let name2Required = name2Comp.required;
+        if(name2Required){
+            if(!name2Value){
+                name2Comp.setCustomValidity("Complete this field");
+                errorsFound+=1
+            }else{
+                name2Comp.setCustomValidity("");
+            }
+            name2Comp.reportValidity();
+        }
+        
+        let regionComp=this.template.querySelector(".regionComp");
+        let regionValue=regionComp.value;
+        let regionRequired = regionComp.required;
+        if(regionRequired){
+            if(!regionValue){
+                regionComp.setCustomValidity("Complete this field");
+                errorsFound+=1
+            }else{
+                regionComp.setCustomValidity("");
+            }
+            regionComp.reportValidity();
+        }
+        
         if(errorsFound>0){
             return false
         }else{
@@ -450,7 +531,7 @@ export default class Atp_check_line_shipping_info_component extends LightningEle
             Address_Street_AC__c: this.addStreetVal,
             Address_City_AC__c: this.cityVal,
             Address_Postal_Code_AC__c: this.postalCodeVal,
-
+            Address_District_AC__c: this.districtVal
         }
 
         const recordInput = { fields };
@@ -477,5 +558,13 @@ export default class Atp_check_line_shipping_info_component extends LightningEle
                     }),
                 );
             });
+    }
+
+    get isBrazilSalesOrg() {
+        if(this.currentUserSalesOrg === 'BR'){
+            return true;
+        } else{
+            return false;
+        }
     }
 }

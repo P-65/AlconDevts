@@ -46,7 +46,7 @@ import ATP_UDCRBackOrderFalseForLocal_Validation from '@salesforce/label/c.ATP_U
 import ATP_UDCRBackOrderFalseForSC_Validation from '@salesforce/label/c.ATP_UDCRBackOrderFalseForSC_Validation'
 import ATP_ExpensedForTrunk_Validation from '@salesforce/label/c.ATP_ExpensedForTrunk_Validation'
 import ATP_Prophet_Parts_Order_From_Service_Center_Validation from '@salesforce/label/c.ATP_Prophet_Parts_Order_From_Service_Center_Validation'
-//import ATP_ExpensedForBrazil_Validation from '@salesforce/label/c.ATP_ExpensedForBrazil_Validation'
+import ATP_ExpensedForBrazil_Validation from '@salesforce/label/c.ATP_ExpensedForBrazil_Validation'
 import ATP_UDCR_Label from '@salesforce/label/c.ATP_UDCR_Label'
 import ATP_TRUNK_Label from '@salesforce/label/c.ATP_TRUNK_Label'
 import ATP_LOCAL_Label from '@salesforce/label/c.ATP_LOCAL_Label'
@@ -586,10 +586,10 @@ export default class Atp_open_lines_datatable_component extends NavigationMixin(
                 }else if(recordToDisplay.Source__c === ATP_TRUNK_Label && recordToDisplay.Expensed_Result_Flag_AC__c){
                         messages.push(`${ATP_ExpensedForTrunk_Validation}`);
                         fieldNames.push('Source__c');
-                }/*else if (this.currentUserSalesOrg === this.expenseOrderBR && recordToDisplay.Expensed_Result_Flag_AC__c) {
+                }else if (this.currentUserSalesOrg === this.expenseOrderBR && recordToDisplay.Expensed_Result_Flag_AC__c) {
                         messages.push(`${ATP_ExpensedForBrazil_Validation}`);
                         fieldNames.push('Source__c');
-                    }*/else{
+                    }else{
                  if ((!this.allowOrderFromSC && recordToDisplay.Source__c != ATP_SC_Label)||(this.allowOrderFromSC && recordToDisplay.Source__c != ATP_SC_Label)||(this.allowOrderFromSC && recordToDisplay.Source__c === ATP_SC_Label)) {
                 if (!recordToDisplay.Error__c) {
                     if (((draftRow.Urgency_Code__c != ATP_UDCR_Label&&draftRow.Urgency_Code__c != urgencyCodeBP)||((recordToDisplay.Urgency_Code__c!=ATP_UDCR_Label&&recordToDisplay.Urgency_Code__c != ATP_BusinessPriority_Label) &&!('Urgency_Code__c' in draftRow)))||((draftRow.Urgency_Code__c === ATP_UDCR_Label||draftRow.Urgency_Code__c === urgencyCodeBP)||((recordToDisplay.Urgency_Code__c===ATP_UDCR_Label||recordToDisplay.Urgency_Code__c === ATP_BusinessPriority_Label) &&!('Urgency_Code__c' in draftRow))) && this.workOrderVal) {
@@ -750,10 +750,10 @@ export default class Atp_open_lines_datatable_component extends NavigationMixin(
                     }else if (row.Source__c === ATP_TRUNK_Label && row.Expensed_Result_Flag_AC__c) {
                         messages.push(`${ATP_ExpensedForTrunk_Validation}`);
                         fieldNames.push('Source__c');
-                    }/*else if (this.currentUserSalesOrg === this.expenseOrderBR && row.Expensed_Result_Flag_AC__c) {
+                    }else if (this.currentUserSalesOrg === this.expenseOrderBR && row.Expensed_Result_Flag_AC__c) {
                         messages.push(`${ATP_ExpensedForBrazil_Validation}`);
                         fieldNames.push('Source__c');
-                    }*/else{
+                    }else{
 
                 if ((!this.allowOrderFromSC && row.Source__c != ATP_SC_Label)||(this.allowOrderFromSC && row.Source__c != ATP_SC_Label)||(this.allowOrderFromSC && row.Source__c === ATP_SC_Label)) {
                 if (!row.Error__c) {

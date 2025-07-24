@@ -117,7 +117,8 @@ DATE                    DEVELOPER                   COMMENTS
                                         placeholder="Region"
                                         options={regionOptions} 
                                         variant="label-inline" 
-                                        onchange={handleChange}>
+                                        onchange={handleChange}
+                                        class="regionComp">
                     </lightning-combobox>
                 </div>
                 <div>
@@ -130,6 +131,16 @@ DATE                    DEVELOPER                   COMMENTS
                                      onchange={handleChange} 
                                      required>
                     </lightning-input>
+                    <template lwc:if={isBrazilSalesOrg}>
+                        <lightning-input name="district" 
+                                        class="districtComp" 
+                                        type="text" 
+                                        label="District" 
+                                        variant="label-inline" 
+                                        value={districtVal}
+                                        onchange={handleChange} >
+                        </lightning-input>
+                    </template>
                 </div>
             </div>
             <div class="slds-col slds-size_6-of-12">
@@ -139,7 +150,8 @@ DATE                    DEVELOPER                   COMMENTS
                                      label="Name2" 
                                      variant="label-inline" 
                                      value={addName2Val}
-                                     onchange={handleChange}>
+                                     onchange={handleChange}
+                                     class="name2Comp">
                     </lightning-input>
                 </div>
                 <div>
